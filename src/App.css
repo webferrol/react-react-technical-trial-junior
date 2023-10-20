@@ -1,0 +1,29 @@
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+}
+
+.todos__form {
+  display: grid;
+  grid-template-columns: auto auto;
+  gap: .5rem;
+}
+
+.todos-list {
+  text-align: initial;
+}
+
+.todos-list ul {
+  display: flex;
+  flex-direction: column;
+  padding-left: 0;
+  gap: .5rem;
+  color: indianred;
+  list-style-type: none;
+}
+
+.todos-list ul li span {
+  display: block;
+}

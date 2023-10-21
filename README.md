@@ -22,7 +22,7 @@ Además, cada vez que se hace click en cualquier elemento de la lista, debe elim
 - [x] _Dar importancia a la funcionalidad y usabilidad, más que al diseño visual._
 - [x] _El código debe ser enteramente desarrollado en Typescript._
 
-## Prueba de testing
+## Prueba de testing: end to end
 
 __vitest__ es una alternativa __jest__ pero más rápido y basado en __vite__.
 

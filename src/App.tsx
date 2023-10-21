@@ -1,3 +1,4 @@
+import { FormEvent } from 'react'
 import './App.css'
 import { Item } from './components/Item'
 import { useItems } from './hooks/useItems'
@@ -26,11 +27,40 @@ export interface TodoItem {
 
 function App () {
   const {
-    createHandleRemoveItem,
-    handleSubmit,
+    addItem,
+    removeItem,
     todos
   } = useItems()
   useSEO(`${todos.length} Número de elementos`, 'Añadiendo elementos')
+
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
+    const { elements } = event.currentTarget
+
+    // Estrategia 1
+    // const inputItem = elements.namedItem('item') as HTMLInputElement // Opción 1
+    // const inputItem = elements.namedItem('item')
+    // console.log(inputItem.value)
+
+    // Estrategia 2
+    const input = elements.namedItem('item')
+    const isInput = input instanceof HTMLInputElement
+    if (!isInput || isInput === null) return
+
+    // Valdiaciones adicionales
+    if (!input.value.length) return
+
+    // Creamos el Item
+    addItem(input.value)
+
+    input.value = ''
+  }
+
+  // 👁️ Función que devuelve otra función
+  const createHandleRemoveItem = (id: Id) => () => {
+    removeItem(id)
+  }
+
   return (
    <main>
      <h1>Mi prueba técnica</h1>

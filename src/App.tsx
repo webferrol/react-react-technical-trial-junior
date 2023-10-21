@@ -1,73 +1,42 @@
-import { FormEvent, useState } from 'react'
 import './App.css'
+import { Item } from './components/Item'
+import { useItems } from './hooks/useItems'
+import useSEO from './hooks/useSEO'
 
-type Id = `${string}-${string}-${string}-${string}-${string}`
+export type Id = `${string}-${string}-${string}-${string}-${string}`
 
-interface Item {
+export interface TodoItem {
   id: Id,
   timestamp: Date,
   text: string
 }
 
-const INITIAL_ITEMS: Item[] = [
-  {
-    id: window.crypto.randomUUID(),
-    timestamp: new Date(),
-    text: 'Videojuegos'
-  },
-  {
-    id: crypto.randomUUID(),
-    timestamp: new Date(),
-    text: 'Libros'
-  }
-]
+// const INITIAL_ITEMS: TodoItem[] = [
+//   {
+//     id: window.crypto.randomUUID(),
+//     timestamp: new Date(),
+//     text: 'Videojuegos'
+//   },
+//   {
+//     id: crypto.randomUUID(),
+//     timestamp: new Date(),
+//     text: 'Libros'
+//   }
+// ]
 
 function App () {
-  const [todos, setTodos] = useState<Item[]>(INITIAL_ITEMS)
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault()
-    const { elements } = event.currentTarget
-
-    // Estrategia 1
-    // const inputItem = elements.namedItem('item') as HTMLInputElement // Opción 1
-    // const inputItem = elements.namedItem('item')
-    // console.log(inputItem.value)
-
-    // Estrategia 2
-    const input = elements.namedItem('item')
-    const isInput = input instanceof HTMLInputElement
-    if (!isInput || isInput === null) return
-
-    // Valdiaciones adicionales
-    if (!input.value.length) return
-
-    // Creamos el Item
-
-    const newItem: Item = {
-      id: window.crypto.randomUUID(),
-      timestamp: new Date(),
-      text: input.value
-    }
-
-    setTodos([
-      ...todos,
-      newItem
-    ])
-
-    input.value = ''
-  }
-
-  // 👁️ Función que devuelve otra función
-  const createHandleRemoveItem = (id: Id) => () => {
-    setTodos(prevTodos => prevTodos.filter(item => item.id !== id))
-  }
-
+  const {
+    createHandleRemoveItem,
+    handleSubmit,
+    todos
+  } = useItems()
+  useSEO(`${todos.length} Número de elementos`, 'Añadiendo elementos')
   return (
    <main>
      <h1>Mi prueba técnica</h1>
      <aside className='todos'>
       <h2>Añadir items</h2>
-      <form className="todos__form" onSubmit={handleSubmit}>
+      <form className="todos__form" onSubmit={handleSubmit} aria-label="Añadir elementos a la lista">
         <input type="text" name="item" />
         <button>Añadir Item</button>
       </form>
@@ -79,9 +48,7 @@ function App () {
           <ul>
             {
               todos.map(({ id, text }) => (
-                <li key={id}>
-                  <span role="button" onClick={createHandleRemoveItem(id)}>{text}</span>
-                </li>
+               <Item handleRemove={createHandleRemoveItem(id)} key={id} text={text} />
               ))
             }
           </ul>

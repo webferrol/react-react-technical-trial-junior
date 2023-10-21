@@ -21,3 +21,11 @@ Además, cada vez que se hace click en cualquier elemento de la lista, debe elim
 
 - [x] _Dar importancia a la funcionalidad y usabilidad, más que al diseño visual._
 - [x] _El código debe ser enteramente desarrollado en Typescript._
+
+## Prueba de testing
+
+__vitest__ es una alternativa __jest__ pero más rápido y basado en __vite__.
+
+__happydom__ para simular que corremos toda la aplicación en un navegador.
+
+- [x] _Instalar vitest y happydom_
